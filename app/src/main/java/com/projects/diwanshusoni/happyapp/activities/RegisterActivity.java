@@ -1,5 +1,7 @@
 package com.projects.diwanshusoni.happyapp.activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -19,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.projects.diwanshusoni.happyapp.R;
+import com.projects.diwanshusoni.happyapp.constants.constants;
+import com.projects.diwanshusoni.happyapp.pojos.PojoEmailUid;
 import com.projects.diwanshusoni.happyapp.pojos.PojoUser;
 
 import java.util.regex.Pattern;
@@ -28,6 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btn_confirm;
     private EditText et_mail, et_pass, et_name;
     private TextInputLayout til_mail, til_pass, til_name;
+
+    //progress dialog
+    private ProgressDialog dialog;
 
     //firebaseAuth
     private FirebaseAuth auth;
@@ -50,11 +57,17 @@ public class RegisterActivity extends AppCompatActivity {
     private void initFire() {
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child(constants.USER_NODE);
     }
 
     private void setActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("AppName "+"Register");
+        try {
+            actionBar.setTitle("AppName "+"Register");
+        }
+        catch (NullPointerException e){
+
+        }
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -122,16 +135,18 @@ public class RegisterActivity extends AppCompatActivity {
         }
         //begin create account
 
+        showWaitDialog("Performing Requested task\nPlease Wait..");
         auth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()){
+                            dialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Cannot Create New Account", Toast.LENGTH_SHORT).show();
                         }
                         else {
                             //// TODO: 28-09-2017 verification mail, login, etc
-                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                             createUserDataBase();
                         }
                     }
@@ -139,20 +154,62 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createUserDataBase() {
-        databaseReference = firebaseDatabase.getReference().child("USERS");
         PojoUser pojoUser = new PojoUser();
         pojoUser.setEmail(et_mail.getText().toString());
         pojoUser.setName(et_name.getText().toString());
 
-        databaseReference.child(auth.getCurrentUser().getUid()).setValue(pojoUser)
+        try {
+
+        }
+        catch (NullPointerException e){
+            databaseReference.child(constants.USER_NODE_UID).child(auth.getCurrentUser().getUid()).setValue(pojoUser)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (!task.isSuccessful()){
+                                dialog.dismiss();
+                                Toast.makeText(RegisterActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                createEmaildb();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void createEmaildb() {
+        PojoEmailUid pojoEmailUid = new PojoEmailUid();
+        //pojoEmailUid.setEmail(et_mail.getText().toString());
+        boolean valid = true;
+        try {
+            pojoEmailUid.setUid(auth.getCurrentUser().getUid());
+        }
+        catch (NullPointerException e){
+            valid = false;
+        }
+
+        if (!valid){
+            dialog.dismiss();
+            Toast.makeText(this, "Nullpointer Exception", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        databaseReference.child(constants.USER_NODE_EMAIL).child(et_mail.getText().toString().replace(".","_")).setValue(pojoEmailUid)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                         if (!task.isSuccessful()){
                             Toast.makeText(RegisterActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Toast.makeText(RegisterActivity.this, "Ready", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Created Account Successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, DashBoardActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });
@@ -166,6 +223,14 @@ public class RegisterActivity extends AppCompatActivity {
         til_pass = (TextInputLayout) findViewById(R.id.til_reg_etpass);
         til_name = (TextInputLayout) findViewById(R.id.til_reg_name);
         btn_confirm = (Button) findViewById(R.id.btn_reg_confirm);
+    }
+
+    private void showWaitDialog(String PROGRESS_MESSAGE){
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(PROGRESS_MESSAGE);
+        dialog.show();
     }
 
 }

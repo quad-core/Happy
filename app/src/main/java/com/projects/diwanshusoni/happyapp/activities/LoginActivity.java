@@ -1,5 +1,6 @@
 package com.projects.diwanshusoni.happyapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_mail, et_pass;
     private TextInputLayout til_mail, til_pass;
 
+    //progress dialog
+    private ProgressDialog dialog;
+
     //firebaseAuth
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -38,11 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initFire();
-        //my code
-
         link();
         lSetup();
-        //
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,8 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = auth.getCurrentUser();
                 if (user != null){
-                    //// TODO: 28-09-2017 create dashboard activity
-                    Toast.makeText(LoginActivity.this, "Already Logged In", Toast.LENGTH_SHORT).show();
+                    //// TODO: 28-09-2017 create dashboard activity ---done
+                    //Toast.makeText(LoginActivity.this, "Already Logged In", Toast.LENGTH_SHORT).show();
+                   gotoDashBoard();
                 }
             }
         };
@@ -76,17 +78,16 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                //// TODO: 28-09-2017  Verify the credential and send to dashboard
+                //// TODO: 28-09-2017  Verify the credential and send to dashboard ---done
                 //function to login
                 loginProcess();
-                gotoDashBoard();
+                //gotoDashBoard();
             }
         });
         btn_reg.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                //// TODO: 28-09-2017  Verify the credential and send to dashboard
                 goRegister();
             }
         });
@@ -112,10 +113,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        showWaitDialog("Performing Requested task\nPlease Wait..");
         auth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        dialog.dismiss();
                         if (!task.isSuccessful()){
                             Toast.makeText(LoginActivity.this, "Cannot Sign In", Toast.LENGTH_SHORT).show();
                         }
@@ -132,7 +135,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void gotoDashBoard() {
-        Toast.makeText(this, "LoginPressed", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void link() {
@@ -156,5 +161,13 @@ public class LoginActivity extends AppCompatActivity {
         if (authStateListener!=null){
             auth.removeAuthStateListener(authStateListener);
         }
+    }
+
+    private void showWaitDialog(String PROGRESS_MESSAGE){
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(PROGRESS_MESSAGE);
+        dialog.show();
     }
 }
