@@ -215,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void gotoDashBoard() {
-        Intent intent = new Intent(LoginActivity.this, DashBoardActivity.class);
+        Intent intent = new Intent(LoginActivity.this, showPostedTasksActivity.class);
         startActivity(intent);
         finish();
     }
