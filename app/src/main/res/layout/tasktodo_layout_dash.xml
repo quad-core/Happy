@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_dash_tasktodo_head_id"
+        android:src="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/tv_dash_tasktodo_id"
+        android:text="Available Task"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:textSize="@dimen/def_text_size"
+        android:textColor="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ImageButton
+        android:id="@+id/btn_autorefresh_id"
+        android:background="#00000000"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_autorenew_black_24dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <LinearLayout
+        android:id="@+id/linearlay_taskinfo_tasktodo_dash_id"
+        android:layout_margin="@dimen/def_tv_padding"
+        android:layout_below="@id/tv_dash_tasktodo_id"
+        android:background="@drawable/tasktodo_layoutback"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="#a64c61e7"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/def_tv_padding"
+                android:background="@drawable/tasktodo_layoutback"
+                android:textColor="@color/def_tv_text_col"
+                android:hint="@string/hint_dash_tv_"
+                android:textSize="@dimen/def_text_size"
+                android:id="@+id/tv_dash_tasktodo_taskhead_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_dash_tasktodo_createdby_id"
+                android:padding="@dimen/def_tv_padding"
+                android:textColor="@color/def_tv_text_col"
+                android:hint="@string/hint_dash_tv_"
+                android:textSize="@dimen/def_text_size"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/tv_dash_tasktodo_taskhead_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_dash_tasktodo_createdon_id"
+                android:padding="@dimen/def_tv_padding"
+                android:hint="@string/hint_dash_tv_"
+                android:textColor="@color/def_tv_text_col"
+                android:textSize="@dimen/def_text_size"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/tv_dash_tasktodo_taskhead_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relative_layout_task_description_id"
+            android:background="#a64c61e7"
+            android:layout_marginTop="2dp"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_dash_tasktodo_taskdescription_id"
+                android:maxLines="8"
+                android:padding="@dimen/def_tv_padding"
+                android:textColor="@color/def_tv_text_col"
+                android:hint="@string/hint_dash_tv_"
+                android:textSize="@dimen/def_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_dash_tasktodo_tasktotalsubmissions_id"
+                android:visibility="gone"
+                android:maxLines="8"
+                android:padding="@dimen/def_tv_padding"
+                android:textColor="@color/def_tv_text_col"
+                android:hint="@string/hint_dash_tv_"
+                android:textSize="@dimen/def_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_dash_tasktodo_taskaveragescore_id"
+                android:padding="@dimen/def_tv_padding"
+                android:textColor="@color/def_tv_text_col"
+                android:hint="@string/hint_dash_tv_"
+                android:textSize="@dimen/def_text_size"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/tv_dash_tasktodo_tasktotalsubmissions_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_dash_tasktodo_latestsubmission_id"
+                android:visibility="gone"
+                android:padding="@dimen/def_tv_padding"
+                android:hint="@string/hint_dash_tv_"
+                android:textColor="@color/def_tv_text_col"
+                android:textSize="@dimen/def_text_size"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/tv_dash_tasktodo_taskaveragescore_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

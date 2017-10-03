@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="def_tv_text_col">#000</color>
     <color name="def_login_et_text_col">#000000</color>
     <color name="def_btn_text_col">#ffffff</color>
 </resources>

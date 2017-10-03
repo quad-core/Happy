@@ -6,6 +6,13 @@
     <string name="hint_login_et_email">Email</string>
     <string name="hint_login_et_password">Password</string>
     <string name="hint_login_et_name">Name</string>
+    <string name="hint_dash_tv_">Sample Text</string>
+
+    <string name="text_dash_tv_tasksdone">Tasks done : </string>
+    <string name="text_dash_tv_evaluated">Tasks Evaluated : </string>
+    <string name="text_dash_tv_myaveragescore">Average Score : </string>
+    <string name="text_dash_tv_highestscore">Highest Score : </string>
+    <string name="text_dash_tv_lowestscore">Lowest Score : </string>
 
     <string name="btn_txt_login_btn_login">Login</string>
     <string name="btn_txt_register_btn_login">Register</string>

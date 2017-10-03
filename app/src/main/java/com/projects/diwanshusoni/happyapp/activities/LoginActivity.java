@@ -1,5 +1,6 @@
 package com.projects.diwanshusoni.happyapp.activities;
 
+import android.animation.Animator;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,7 +32,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.projects.diwanshusoni.happyapp.R;
 
 public class LoginActivity extends AppCompatActivity {
-
+    
+    //debug
+    String TAG = "1234";
+    
     private Button btn_login, btn_reg;
     private EditText et_mail, et_pass;
     private TextInputLayout til_mail, til_pass;
@@ -41,9 +52,59 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         initFire();
         link();
+
+        et_mail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (et_mail.getText().toString().trim().isEmpty()){
+                    til_mail.setError("Cannot be Empty");
+                }
+                else if (!Patterns.EMAIL_ADDRESS.matcher(et_mail.getText().toString().trim()).matches()){
+                    til_mail.setError("Enter a valid email address");
+                }
+                else {
+                    til_mail.setError(null);
+                }
+
+            }
+        });
+        et_pass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (et_pass.getText().toString().trim().isEmpty()){
+                    til_pass.setError("Cannot be Empty");
+                }
+                else {
+                    til_pass.setError(null);
+                }
+
+            }
+        });
         lSetup();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void lSetup() {
+
         btn_login.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -102,10 +164,16 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
         if (email.isEmpty()){
             valid = false;
+            YoYo.with(Techniques.Shake)
+                    .duration(500)
+                    .playOn(til_mail);
             til_mail.setError("Cannot be Empty");
         }
         if (pass.isEmpty()){
             valid = false;
+            YoYo.with(Techniques.Shake)
+                    .duration(500)
+                    .playOn(til_pass);
             til_pass.setError("Cannot be Empty");
         }
 
@@ -120,6 +188,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         dialog.dismiss();
                         if (!task.isSuccessful()){
+                            Log.d(TAG, "onComplete: "+task.getException());
+                            YoYo.with(Techniques.Shake)
+                                    .duration(500)
+                                    .onStart(new YoYo.AnimatorCallback() {
+                                        @Override
+                                        public void call(Animator animator) {
+                                            YoYo.with(Techniques.Shake)
+                                                    .duration(500)
+                                                    .playOn(til_mail);
+                                        }
+                                    })
+                                    .playOn(til_pass);
                             Toast.makeText(LoginActivity.this, "Cannot Sign In", Toast.LENGTH_SHORT).show();
                         }
                         else {

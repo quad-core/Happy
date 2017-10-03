@@ -8,10 +8,115 @@
     tools:context="com.projects.diwanshusoni.happyapp.activities.DashBoardActivity"
     tools:showIn="@layout/activity_dash_board">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layout_dash_user_achievements_id"
+            android:gravity="center"
+            android:background="#a64c61e7"
+            android:layout_margin="@dimen/def_margin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/civ_dash_gloabalrank_id"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/def_margin"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/text_dash_tv_tasksdone"
+                    android:hint="@string/hint_dash_tv_"
+                    android:textSize="@dimen/def_text_size"
+                    android:padding="@dimen/def_tv_padding"
+                    android:textColor="@color/def_tv_text_col"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:text="@string/text_dash_tv_evaluated"
+                    android:hint="@string/hint_dash_tv_"
+                    android:textSize="@dimen/def_text_size"
+                    android:padding="@dimen/def_tv_padding"
+                    android:textColor="@color/def_tv_text_col"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:text="@string/text_dash_tv_myaveragescore"
+                    android:hint="@string/hint_dash_tv_"
+                    android:textSize="@dimen/def_text_size"
+                    android:padding="@dimen/def_tv_padding"
+                    android:textColor="@color/def_tv_text_col"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:text="@string/text_dash_tv_highestscore"
+                    android:hint="@string/hint_dash_tv_"
+                    android:textSize="@dimen/def_text_size"
+                    android:padding="@dimen/def_tv_padding"
+                    android:textColor="@color/def_tv_text_col"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:text="@string/text_dash_tv_lowestscore"
+                    android:hint="@string/hint_dash_tv_"
+                    android:textSize="@dimen/def_text_size"
+                    android:padding="@dimen/def_tv_padding"
+                    android:textColor="@color/def_tv_text_col"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_dash_user_taskstodo_id"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/def_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/tasktodo_layout_dash"></include>
+
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layout_dash_user_taskstoevaluate_id"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/def_margin"
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <include layout="@layout/tasktoevaluate_layout_dash"></include>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
